@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://cards/card_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+card_name = "QUICK"
+cost = 0
+damage = 3
+description = "快攻。0 費，對單一敵人造成 3 點傷害。"

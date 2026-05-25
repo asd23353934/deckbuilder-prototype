@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://cfw6te1asj5l"]
+
+[ext_resource type="Script" uid="uid://cs2hkkydofd2t" path="res://cards/card_data.gd" id="1_wjk3p"]
+
+[resource]
+script = ExtResource("1_wjk3p")
+card_name = "FOCUS"
+cost = 2
+description = "下一張攻擊卡傷害 +3。"
+metadata/_custom_type_script = "uid://cs2hkkydofd2t"

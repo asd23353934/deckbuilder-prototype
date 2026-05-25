@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://d3yg5yolhujov"]
+
+[ext_resource type="Script" uid="uid://cs2hkkydofd2t" path="res://cards/card_data.gd" id="1_gi6ei"]
+
+[resource]
+script = ExtResource("1_gi6ei")
+card_name = "STRIKE"
+damage = 6
+description = "對單一敵人造成 6 點傷害。"
+metadata/_custom_type_script = "uid://cs2hkkydofd2t"
