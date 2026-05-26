@@ -1,6 +1,9 @@
 extends Node
 
-# Manual test harness for GameState autoload.
+# Loaded scenes for entity tests
+const ENEMY_SCENE = preload("res://enemy.tscn")
+
+# Manual test harness for GameState autoload (+ Enemy scene entity).
 #
 # Why no framework:
 #   GdUnit4 v6.0.0 (latest on AssetLib as of 2026-05-26) fails to compile
@@ -113,6 +116,70 @@ func _connect_signals() -> void:
 
 
 # ============================================================
+# Enemy test cases
+# ============================================================
+#
+# Enemy 比 GameState 複雜，因為它是 scene 不是 autoload：
+#   - 必須 instantiate(）拿到 Node tree
+#   - 必須 add_child() 才會 _ready，UI children 才能用
+#   - 每個 test 後 queue_free 清掉
+#
+# Helper _create_test_enemy() 統一處理建構流程。
+
+# 用 Array 記住 enemy 的 died signal 觸發狀態（per-test reset）
+var _enemy_died_count := 0
+
+
+func _on_enemy_died_signal() -> void:
+	_enemy_died_count += 1
+
+
+func _create_test_enemy(max_hp: int = 20) -> Node:
+	var enemy = ENEMY_SCENE.instantiate()
+	enemy.max_hp = max_hp     # setter 在 add_child 前跑 → is_node_ready 為 false → 不 _refresh
+	add_child(enemy)            # _ready 跑 → hp = max_hp → _refresh
+	_enemy_died_count = 0       # 每個 test reset 計數
+	enemy.died.connect(_on_enemy_died_signal)
+	return enemy
+
+
+func test_enemy_take_damage_normal() -> String:
+	var enemy = _create_test_enemy(20)
+	enemy.take_damage(5)
+	var result = _expect(enemy.hp, 15, "Enemy HP after take_damage(5) from 20")
+	enemy.queue_free()
+	return result
+
+
+func test_enemy_take_damage_clamps_at_zero() -> String:
+	var enemy = _create_test_enemy(10)
+	enemy.take_damage(50)   # 過殺
+	var result = _expect(enemy.hp, 0, "Enemy HP should clamp at 0, not negative")
+	enemy.queue_free()
+	return result
+
+
+func test_enemy_take_damage_emits_died_signal() -> String:
+	var enemy = _create_test_enemy(10)
+	enemy.take_damage(50)
+	var result = _expect_true(_enemy_died_count == 1, "died signal must emit exactly once when HP reaches 0")
+	enemy.queue_free()
+	return result
+
+
+func test_enemy_dead_ignores_further_damage() -> String:
+	# Regression guard：死了之後不能再收傷害，避免重複 emit died
+	var enemy = _create_test_enemy(5)
+	enemy.take_damage(10)   # die
+	enemy.take_damage(10)   # 應該被 if hp <= 0: return 擋掉
+	var hp_ok = enemy.hp == 0
+	var emit_ok = _enemy_died_count == 1   # 不能變 2
+	var result = _expect_true(hp_ok and emit_ok, "Dead enemy should not take more damage nor re-emit died")
+	enemy.queue_free()
+	return result
+
+
+# ============================================================
 # Assertion helpers
 # ============================================================
 
@@ -135,10 +202,11 @@ func _expect_true(condition: bool, description: String) -> String:
 func _ready() -> void:
 	var line := "=".repeat(60)
 	print(line)
-	print(" GameState test suite (manual harness, no framework)")
+	print(" GameState + Enemy test suite (manual harness, no framework)")
 	print(line)
 
 	var test_names := [
+		# GameState autoload tests (9)
 		"test_take_damage_normal",
 		"test_take_damage_clamps_at_zero",
 		"test_take_damage_emits_player_died_signal",
@@ -148,6 +216,11 @@ func _ready() -> void:
 		"test_spend_energy_sufficient",
 		"test_spend_energy_insufficient",
 		"test_reset_increments_run_count_once",
+		# Enemy scene tests (4)
+		"test_enemy_take_damage_normal",
+		"test_enemy_take_damage_clamps_at_zero",
+		"test_enemy_take_damage_emits_died_signal",
+		"test_enemy_dead_ignores_further_damage",
 	]
 
 	var passed := 0

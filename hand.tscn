@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://damh4nybruofl"]
+
+[ext_resource type="Script" uid="uid://b4jgiwjm4p1xh" path="res://hand.gd" id="1_hand"]
+[ext_resource type="PackedScene" uid="uid://d0qbdx1qqcoaf" path="res://card.tscn" id="2_xwava"]
+[ext_resource type="Script" uid="uid://by4xrt1816a2c" path="res://cards/card_data.gd" id="3_3i0sp"]
+[ext_resource type="Resource" uid="uid://d3yg5yolhujov" path="res://cards/strike.tres" id="4_djtxf"]
+[ext_resource type="Resource" uid="uid://uxoxfgdc2dqr" path="res://cards/defend.tres" id="5_0ou47"]
+[ext_resource type="Resource" uid="uid://cfw6te1asj5l" path="res://cards/focus.tres" id="6_076xs"]
+[ext_resource type="Resource" path="res://cards/heavy.tres" id="7_6qbs0"]
+[ext_resource type="Resource" path="res://cards/quick.tres" id="8_40065"]
+
+[node name="Hand" type="HBoxContainer" unique_id=1221580821]
+offset_right = 800.0
+offset_bottom = 220.0
+alignment = 1
+script = ExtResource("1_hand")
+card_scene = ExtResource("2_xwava")
+cards = Array[ExtResource("3_3i0sp")]([ExtResource("4_djtxf"), ExtResource("5_0ou47"), ExtResource("6_076xs"), ExtResource("7_6qbs0"), ExtResource("8_40065")])

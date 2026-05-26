@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://d0qbdx1qqcoaf"]
+
+[ext_resource type="Script" uid="uid://c0k5wa60oc10b" path="res://card.gd" id="1_card"]
+[ext_resource type="Resource" uid="uid://d3yg5yolhujov" path="res://cards/strike.tres" id="2_rjlel"]
+
+[node name="Card" type="PanelContainer" unique_id=979609266]
+custom_minimum_size = Vector2(140, 200)
+offset_right = 140.0
+offset_bottom = 200.0
+script = ExtResource("1_card")
+data = ExtResource("2_rjlel")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=35586969]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=616124455]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=2022547996]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1215691651]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CARD NAME"
+
+[node name="CostLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=992934693]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+
+[node name="DamageLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1039664887]
+unique_name_in_owner = true
+layout_mode = 2
+text = "DMG: 0"
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1590699931]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Card description goes here."
+autowrap_mode = 2

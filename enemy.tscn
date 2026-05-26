@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://b6wl1r5x53fyb"]
+
+[ext_resource type="Script" uid="uid://bvracn6chc00n" path="res://enemy.gd" id="1_enemy"]
+
+[node name="Enemy" type="PanelContainer" unique_id=1460747983]
+custom_minimum_size = Vector2(200, 280)
+offset_right = 200.0
+offset_bottom = 280.0
+script = ExtResource("1_enemy")
+enemy_name = "史萊姆"
+max_hp = 30
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=815841941]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=151462214]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1103999224]
+unique_name_in_owner = true
+layout_mode = 2
+text = "敵人"
+horizontal_alignment = 1
+
+[node name="Body" type="ColorRect" parent="MarginContainer/VBoxContainer" unique_id=919629200]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.7, 0.2, 0.2, 1)
+
+[node name="HPBar" type="ProgressBar" parent="MarginContainer/VBoxContainer" unique_id=759648567]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 20.0
+value = 20.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1108940615]
+unique_name_in_owner = true
+layout_mode = 2
+text = "20 / 20"
+horizontal_alignment = 1
